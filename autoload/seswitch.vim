@@ -1,7 +1,3 @@
-" TODO: should be in .vimrc
-let g:seswitch#device_name = 'test'
-let g:seswitch#session_dir = 'session_dir'
-
 function! seswitch#Debug()
   return {'current_session': exists('g:seswitch#current_session') ?
           \ g:seswitch#current_session : 'NONE',
@@ -38,7 +34,7 @@ function! seswitch#SwitchSession(bangstr, new_session_name)
     if exists('g:seswitch#current_session')
       call seswitch#SaveSession('', '')
     endif
-    bufdo bdel
+    %bdel
     call seswitch#OpenSession(a:new_session_name)
   else
     echomsg "SeSwitch: Current session is unnamed."
@@ -111,7 +107,7 @@ function! seswitch#NewSession(bangstr, new_session_name)
     endif
   endif
 
-  bufdo bdel
+  %bdel
   if name_given
     let g:seswitch#current_session = a:new_session_name
   else
