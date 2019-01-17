@@ -1,0 +1,10 @@
+Add to .vimrc, for example:
+
+    let g:seswitch#device_name = 'Nokia3360'
+    let g:seswitch#session_dir = 'Sessions'
+    " With these settings, issuing the command
+    "     SeNew French
+    " or
+    "     SeSwitch French
+    " will result in the creation of a file named
+    "     Sessions/Nokia3360-French.vimsession
