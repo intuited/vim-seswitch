@@ -15,15 +15,11 @@ endfunction
 " Returns a list of completion options for SessionSwitch.
 " This is based on the existing session files in the session file dir
 "   that have the device prefix of this device.
-" TODO: write the dang thing
 function! seswitch#SessionList(ArgLead, CmdLine, CursorPos)
-" The following example completes filenames from the directories specified in
-" the 'path' option: >
-"     :com -nargs=1 -bang -complete=customlist,EditFileComplete
-" 			\ EditFile edit<bang> <args>
-"     :fun EditFileComplete(A,L,P)
-"     :    return split(globpath(&path, a:A), "\n")
-"     :endfun
+  return seswitch#ListDeviceSessions(g:seswitch#session_dir,
+                                   \ g:seswitch#device_name,
+                                   \ a:ArgLead)
+
 endfunction
 
 
@@ -140,10 +136,13 @@ endfunction
 ""}
 
 " Returns a list of session names for the given device.
-function! seswitch#ListDeviceSessions(session_dir, device_name)
+" Third argument, if given, is a prefix on the session name used for autocompletion.
+function! seswitch#ListDeviceSessions(session_dir, device_name, ...)
+  let prefix = a:0 ? fnameescape(a:1) : ''
   let session_dir = fnameescape(a:session_dir)
   let device_name = fnameescape(a:device_name)
-  let globpath = seswitch#SessionPath(session_dir, device_name, "*")
+  let globpath = seswitch#SessionPath(session_dir, device_name, prefix . "*")
+  echo 'globpath: ' . globpath
   let files = glob(globpath, 0, 1)
   return map(files, "seswitch#SessionNameFromPath(v:val)")
 endfunction
