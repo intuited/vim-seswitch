@@ -9,6 +9,9 @@ Add to .vimrc, for example:
     " will result in the creation of a file named
     "     Sessions/Nokia3360-French.vimsession
 
+    " The author uses such a session to manage tab and window states
+    " of files containing notes on the French language.
+
 Some known issues
   - uses hardcoded path separators, thus presumably not compatible with Windows
   - similarly, no checks are made on session name characters
