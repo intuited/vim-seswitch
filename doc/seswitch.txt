@@ -8,3 +8,6 @@ Add to .vimrc, for example:
     "     SeSwitch French
     " will result in the creation of a file named
     "     Sessions/Nokia3360-French.vimsession
+
+    " The author uses such a session to manage tab and window states
+    " of files containing notes on the French language.
