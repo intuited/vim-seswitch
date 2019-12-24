@@ -28,3 +28,7 @@ command -nargs=? -bang SeNew call seswitch#NewSession('<bang>', '<args>')
 " TODO: autocompletion for session names in the SeSwitch command.
 
 command SeDebug echo seswitch#Debug()
+
+" List the saved sessions for this device.
+command SeList echo join(seswitch#ListDeviceSessions(seswitch#session_dir,
+                                                   \ seswitch#device_name), "\n")

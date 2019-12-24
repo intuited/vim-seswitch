@@ -1,3 +1,5 @@
+let g:seswitch#session_file_extension = '.vimsession'
+
 function! seswitch#Debug()
   return {'current_session': exists('g:seswitch#current_session') ?
           \ g:seswitch#current_session : 'NONE',
@@ -118,12 +120,33 @@ function! seswitch#NewSession(bangstr, new_session_name)
 endfunction
 
 
+""{ Next two functions are aware of the format for session filenames
+
 " TODO: make path separator cross-platform portable
 function! seswitch#SessionPath(session_dir, device_name, session_name)
-  return a:session_dir . '/' . a:device_name . '-' . a:session_name . ".vimsession"
+  return a:session_dir . '/' . 'device--' . a:device_name . '/' . a:session_name . g:seswitch#session_file_extension
 endfunction
 
+" Extract the session name from a full session path+filename
+function! seswitch#SessionNameFromPath(session_path)
+  let result = substitute(a:session_path, '^.*/', '', '')
+  let extpos = strridx(result, g:seswitch#session_file_extension)
+  if extpos < 0
+    throw 'SeSwitch: session file extension "' . g:seswitch#session_file_extension
+        \ . '" not found in session path "' . a:session_path . '"'
+  endif
+  return result[0:extpos-1]
+endfunction
+""}
 
+" Returns a list of session names for the given device.
+function! seswitch#ListDeviceSessions(session_dir, device_name)
+  let session_dir = fnameescape(a:session_dir)
+  let device_name = fnameescape(a:device_name)
+  let globpath = seswitch#SessionPath(session_dir, device_name, "*")
+  let files = glob(globpath, 0, 1)
+  return map(files, "seswitch#SessionNameFromPath(v:val)")
+endfunction
 
 " Uhh pretty sure I don't need this anymore
 "   if a:0
