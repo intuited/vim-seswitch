@@ -8,3 +8,9 @@ Add to .vimrc, for example:
     "     SeSwitch French
     " will result in the creation of a file named
     "     Sessions/Nokia3360-French.vimsession
+
+Some known issues
+  - uses hardcoded path separators, thus presumably not compatible with Windows
+  - similarly, no checks are made on session name characters
+    so it is possible to use character incompatible with some filesystems.
+  - needs documentation of commands
