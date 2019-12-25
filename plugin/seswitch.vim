@@ -1,10 +1,3 @@
-" TODO: compile commands under a master SeSwitch command with subcommands
-"       eg SeSwitch open $seshname
-" :SeSwitch $new_session   Close this session and open a new or existing one.
-"                         Requires ! if this session is unnamed.
-" TODO: completion
-" TODO: if no session name given, switches to the previous session
-" TODO: persist current/previous session across vim shutdown
 command -nargs=1 -bang -complete=customlist,seswitch#SessionList SeSwitch
   \ call seswitch#SwitchSession('<bang>', '<args>')
 

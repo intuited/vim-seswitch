@@ -23,22 +23,15 @@ function! seswitch#SessionList(ArgLead, CmdLine, CursorPos)
 endfunction
 
 
-" :SeSwitch $new_session   Close this session and start a new one.
-"                         Requires ! if this session is unnamed.
+" Handler for SeSwitch command
 " TODO: with no session name given, switches to the previous session
 function! seswitch#SwitchSession(bangstr, new_session_name)
   let bang = (a:bangstr == '!')
-  if bang || exists('g:seswitch#current_session')
-    if exists('g:seswitch#current_session')
-      call seswitch#SaveSession('', '')
-    endif
-    %bdel
-    call seswitch#OpenSession(a:new_session_name)
-  else
-    echomsg "SeSwitch: Current session is unnamed."
-    echomsg "Use :SaveSession to set name or use SeSwitch! to switch."
-    throw "SeSwitch: can't switch from unnamed session without !"
+  if !bang
+    call seswitch#SaveSession('', '')
   endif
+  %bdel
+  call seswitch#OpenSession(a:new_session_name)
 endfunction
 
 " :SeSave $name      Save the current session with name $name.
