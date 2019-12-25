@@ -1,16 +1,56 @@
+*seswitch.txt*  Conveniently switch between Vim sessions
+
+Author: Ted Tibbetts <http://github.com/intuited>
+License: Same terms as Vim itself  (see |license|)
+
+INTRODUCTION                            *seswitch*
+
+The seswitch plugin consists primarily of the |:SeSwitch| command.
+This command is used to quickly switch between Vim sessions.
+The author uses it primarily on his phone, where use of more than a few tabs
+is impractical and only one vim instance is running at any one time
+via the excellent DroidVim app:
+https://play.google.com/store/apps/details?id=com.droidvim
+
+Use follows the following general pattern:
+- Start Vim
+- :SeSwitch aardvarks
+  - opens the "aardvarks" session, with its various tabs and windows
+    containing information on aardvarks to be processed and/or perused.
+    - This is equivalent to :source $sessionfilename but sets
+      seswitch's session name variable.
+  - make some important updates to the details of how aardvarks snuffle food
+  - :SeSave
+    - make sure the session state is maintained—cursor moved
+      to the location of the recent change, for example.
+  - open new tab containing new "Aliens.txt" buffer
+  - add text indicating that ALF is not related to aardvarks
+- :SeSwitch platypus
+  - delete all buffers related to aardvarks, closing their windows and tabs,
+    and open another set of files with information on the platypus
+  - :normal oTHERE CAN BE ONLY ONE
+- :SeSwitch aardvarks
+  - save the platypus session, re-open the aardvarks session where we left off,
+    with the tab containing "Aliens.txt" selected.
+
+SETUP                                   *seswitch-setup*
+
 Add to .vimrc, for example:
 
     let g:seswitch#device_name = 'Nokia3360'
-    let g:seswitch#session_dir = 'Sessions'
-    " With these settings, issuing the command
-    "     SeNew French
-    " or
-    "     SeSwitch French
-    " will result in the creation of a file named
-    "     Sessions/Nokia3360-French.vimsession
+    let g:seswitch#session_dir = '~/.vim/Sessions'
 
-    " The author uses such a session to manage tab and window states
-    " of files containing notes on the French language.
+With these settings, seswitch will look for and create session files
+matching ~/.vim/Sessions/device--Nokia3360/*.vimsession
+
+COMMANDS                                *seswitch-commands*
+
+                                        *:SeSwitch*
+:SeSwitch[!] [session_name]
+                        Delete all buffers and open the named session.
+                        Save the session first unless ! is given.
+
+KNOWN ISSUES                            *seswitch-issues*
 
 Some known issues
   - uses hardcoded path separators, thus presumably not compatible with Windows
