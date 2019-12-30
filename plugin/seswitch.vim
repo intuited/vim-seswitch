@@ -1,5 +1,5 @@
-command -nargs=1 -bang -complete=customlist,seswitch#SessionList SeSwitch
-  \ call seswitch#SwitchSession('<bang>', '<args>')
+command -nargs=? -bang -complete=customlist,seswitch#SessionList SeSwitch
+  \ call seswitch#SwitchSession('<bang>', <q-args>)
 
 " :SeClose           Close this session and leave all buffers bdel-ed.
 "                         Requires ! if this session is unnamed.
@@ -9,13 +9,13 @@ command -nargs=0 -bang SeClose
 "                         Requires ! if the session file already exists.
 " :SeSave            Update the saved session file for this session.
 "                         ! is ignored if given.
-command -nargs=? -bang SeSave call seswitch#SaveSession('<bang>', '<args>')
+command -nargs=? -bang SeSave call seswitch#SaveSession('<bang>', <q-args>)
 
 " :SeNew $name      Close this session and start a new one with name $name
 "                         Requires ! if this session is unnamed
 " :SeNew            Close this session and start a new unnamed one
 "                         Requires ! if this session is unnamed
-command -nargs=? -bang SeNew call seswitch#NewSession('<bang>', '<args>')
+command -nargs=? -bang SeNew call seswitch#NewSession('<bang>', <q-args>)
 
 
 " TODO: autocompletion for session names in the SeSwitch command.

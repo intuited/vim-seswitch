@@ -50,6 +50,10 @@ COMMANDS                                *seswitch-commands*
                         Delete all buffers and open the named session.
                         Save the session first unless ! is given.
 
+:SeSwitch[!]
+                        Toggles back to previous opened session.
+                        Save first unless ! given.
+
 KNOWN ISSUES                            *seswitch-issues*
 
 Some known issues

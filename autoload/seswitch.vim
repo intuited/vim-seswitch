@@ -24,14 +24,24 @@ endfunction
 
 
 " Handler for SeSwitch command
-" TODO: with no session name given, switches to the previous session
 function! seswitch#SwitchSession(bangstr, new_session_name)
   let bang = (a:bangstr == '!')
-  if !bang
+  let new = a:new_session_name
+  if new == ''
+    if exists('g:seswitch#previous_session') && g:seswitch#previous_session != ''
+      let new = g:seswitch#previous_session
+    else
+      throw "SeSwitch: No previous session to switch to.  Use :SeSwitch NEW_SESSION."
+    endif
+  endif
+  if !bang && exists('g:seswitch#current_session')
     call seswitch#SaveSession('', '')
   endif
   %bdel
-  call seswitch#OpenSession(a:new_session_name)
+  if exists('g:seswitch#current_session')
+    let g:seswitch#previous_session = g:seswitch#current_session
+  endif
+  call seswitch#OpenSession(new)
 endfunction
 
 " :SeSave $name      Save the current session with name $name.
@@ -135,7 +145,6 @@ function! seswitch#ListDeviceSessions(session_dir, device_name, ...)
   let session_dir = fnameescape(a:session_dir)
   let device_name = fnameescape(a:device_name)
   let globpath = seswitch#SessionPath(session_dir, device_name, prefix . "*")
-  echo 'globpath: ' . globpath
   let files = glob(globpath, 0, 1)
   return map(files, "seswitch#SessionNameFromPath(v:val)")
 endfunction
